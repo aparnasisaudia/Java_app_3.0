@@ -19,8 +19,8 @@ pipeline{
                     when { expression {  params.action == 'create' } }
             steps{
             gitCheckout(
-                branch: "main",
-                url: "https://github.com/praveen1994dec/Java_app_3.0.git"
+                branch: "aparna-main",
+                url: "https://github.com/aparnasisaudia/Java_app_3.0.git"
             )
             }
         }
@@ -70,6 +70,15 @@ pipeline{
                script{
                    
                    mvnBuild()
+               }
+            }
+        }
+		stage('Upload Build : JFROG'){
+         when { expression {  params.action == 'create' } }
+            steps{
+               script{
+                   
+                   sh "curl -u admin:Vibgyor@16 -T kubernetes-configmap-reload-0.0.1-SNAPSHOT.jar http://3.84.194.79:8082/artifactory/libs-snapshot-local/"
                }
             }
         }
